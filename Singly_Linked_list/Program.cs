@@ -30,6 +30,14 @@ namespace Singly_Linked_list
             newnode.rollNumber = nim;
             newnode.name = nm;
             //if the node to be inserted is the first node
+            if (Start != null || nim <= Start.rollNumber)
+            {
+                if ((Start != null) && (nim == Start.rollNumber))
+                {
+                    Console.WriteLine("\nDuplicate roll numbers not allowed\n");
+                    return;
+                }
+            }
         }
     }
 }
