@@ -90,7 +90,17 @@ namespace Singly_Linked_list
     }
     class program
     {
-       
+        //check wheter specified node is present in the list or not
+        static void Main(string[] args)
+        {
+            List obj = new List();
+            while (true)
+            {
+                try
+                {
+                }
+
+
             }
         }
     }
