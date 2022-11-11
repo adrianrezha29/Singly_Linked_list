@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Singly_Linked_list
+namespace singly_linked_list
 {
-    //each node consist of the information part and link to the next mode
+    // each node consist of the information part and lik to to the next mode
 
     class Node
     {
@@ -12,39 +19,40 @@ namespace Singly_Linked_list
     }
     class List
     {
-        Node Start;
+        Node START;
 
         public List()
         {
-            Start = null;
+            START = null;
         }
-        public void addNote() //add node in the list
+
+        public void addNote() // add a node in the list
         {
             int nim;
             string nm;
             Console.WriteLine("\nEnter the roll number of the student : ");
             nim = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("\nEnter the name of the student : ");
+            Console.Write("\nEnter the name of student : ");
             nm = Console.ReadLine();
             Node newnode = new Node();
-            newnode.rollNumber = nim;
             newnode.name = nm;
-            //if the node to be inserted is the first node
-            if (Start == null || nim <= Start.rollNumber)
+            //if the node to be inserted in the first node
+            if (START == null || nim <= START.rollNumber)
             {
-                if ((Start != null) && (nim == Start.rollNumber))
+                if ((START != null) && (nim == START.rollNumber))
                 {
-                    Console.WriteLine("\nDuplicate roll numbers not allowed\n");
+                    Console.WriteLine("\nDuplicate roll numbers not allowes\n");
                     return;
                 }
-                newnode.next = Start;
-                Start = newnode;
+                newnode.next = START;
+                START = newnode;
                 return;
             }
-            //locate the position of the new node in the list
+
+            // locate the position of the new node in the list
             Node previous, current;
-            previous = Start;
-            current = Start;
+            previous = START;
+            current = START;
 
             while ((current != null) && (nim >= current.rollNumber))
             {
@@ -56,21 +64,23 @@ namespace Singly_Linked_list
                 previous = current;
                 current = current.next;
             }
+
             //*once the above for loop is executed, prev and current are positioned in such a manner that the position for the new node */
-            newnode = current;
+            newnode.next = current;
             previous.next = newnode;
         }
         public void traverse()
         {
             if (listEmpty())
-                Console.WriteLine("\nList is empt.\n");
+                Console.WriteLine("\nlist is empt.\n");
             else
             {
                 Console.WriteLine("\nThe records in the list are : ");
                 Node currentNode;
-                for (currentNode = Start; currentNode != null; currentNode = currentNode.next)
+                for (currentNode = START; currentNode != null;
+                    currentNode = currentNode.next)
 
-                    Console.WriteLine(currentNode.rollNumber + " " + currentNode.name + "\n");
+                    Console.Write(currentNode.rollNumber + " " + currentNode.name + "\n");
 
                 Console.WriteLine();
             }
@@ -84,13 +94,38 @@ namespace Singly_Linked_list
                 return false;
             previous.next = current.next;
             if (current == START)
-                Start = Start.next;
+                START = START.next;
             return true;
         }
+        public bool Search(int nim, ref Node previous, ref Node current)
+        {
+            previous = START;
+            current = START;
+
+            while ((current != null) && (nim >= current.rollNumber))
+            {
+                previous = current;
+                current = current.next;
+            }
+            if (current == null)
+                return (false);
+            else
+                return (true);
+        }
+
+        public bool listEmpty()
+        {
+            if (START == null)
+                return true;
+            else
+                return false;
+        }
+
     }
-    class program
+    class Program
     {
-        //check wheter specified node is present in the list or not
+        //chech wheter specified node is present in the list or not
+
         static void Main(string[] args)
         {
             List obj = new List();
@@ -108,9 +143,68 @@ namespace Singly_Linked_list
                     char ch = Convert.ToChar(Console.ReadLine());
                     switch (ch)
                     {
-                    
-
-
+                        case '1':
+                            {
+                                obj.addNote();
+                            }
+                            break;
+                        case '2':
+                            {
+                                if (obj.listEmpty())
+                                {
+                                    Console.WriteLine("\nList empty");
+                                    break;
+                                }
+                                Console.Write("\nEnter the roll number of" +
+                                     " the student whose record is to be delated :");
+                                int nim = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine();
+                                if (obj.delNode(nim) == false)
+                                    Console.WriteLine("\n Record not found.");
+                                else
+                                    Console.WriteLine("Record with roll number " + nim + " Deleted");
+                            }
+                            break;
+                        case '3':
+                            {
+                                obj.traverse();
+                            }
+                            break;
+                        case '4':
+                            {
+                                if (obj.listEmpty() == true)
+                                {
+                                    Console.WriteLine("\nList is empty");
+                                    break;
+                                }
+                                Node previous, current;
+                                previous = current = null;
+                                Console.Write("\nEnter roll number of the " +
+                                    "student whose record is to be searched: ");
+                                int num = Convert.ToInt32(Console.ReadLine());
+                                if (obj.Search(num, ref previous, ref current) == false)
+                                    Console.WriteLine("\nRecord not found.");
+                                else
+                                {
+                                    Console.WriteLine("\nRecord found");
+                                    Console.WriteLine("\nRoll number: " + current.rollNumber);
+                                    Console.WriteLine("\nName " + current.name);
+                                }
+                            }
+                            break;
+                        case '5':
+                            return;
+                        default:
+                            {
+                                Console.WriteLine("\nInvalid option");
+                                break;
+                            }
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("\nCheck for the value enterd ");
+                }
             }
         }
     }
