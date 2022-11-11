@@ -46,9 +46,9 @@ namespace Singly_Linked_list
             previous = Start;
             current = Start;
 
-            while((current != null) && (nim >= current.rollNumber))
+            while ((current != null) && (nim >= current.rollNumber))
             {
-                if(nim == current.rollNumber)
+                if (nim == current.rollNumber)
                 {
                     Console.WriteLine("\nDuplicate roll numbers not allowed\n");
                     return;
@@ -62,7 +62,7 @@ namespace Singly_Linked_list
         }
         public void traverse()
         {
-            if(listEmpty())
+            if (listEmpty())
                 Console.WriteLine("\nList is empt.\n");
             else
             {
@@ -71,21 +71,27 @@ namespace Singly_Linked_list
                 for (currentNode = Start; currentNode != null; currentNode = currentNode.next)
 
                     Console.WriteLine(currentNode.rollNumber + " " + currentNode.name + "\n");
-                
+
                 Console.WriteLine();
             }
         }
         public bool delNode(int nim)
         {
             Node previous, current;
-            previous= current = null;
+            previous = current = null;
             // check if the spesified node is present in the list or not
             if (Search(nim, ref previous, ref current) == false)
                 return false;
             previous.next = current.next;
-            if(current == START)
+            if (current == START)
                 Start = Start.next;
             return true;
+        }
+    }
+    class program
+    {
+       
+            }
         }
     }
 }
